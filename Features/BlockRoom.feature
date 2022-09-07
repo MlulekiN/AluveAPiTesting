@@ -4,6 +4,10 @@ Feature: Block Room API Testing
     Given The user has signed in
     When The user blocks room
     Then User validates room is blocked from '<check-in>' to '<check-out>'
+    
+    When User deletes a blocked room
+    Then User validates room is deleted
+
 
 
     Examples:
