@@ -2,6 +2,7 @@ package Steps;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
@@ -9,11 +10,13 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.junit.Assert;
 
+import java.util.ArrayList;
+
 
 public class BlockRoomSteps {
     public static final String BASE_URL = "https://aluveapp-qa.co.za";
     public static Response response;
-    public static String sessionID = "9dc97f9a90cc8f2112d9b58f68af41d0";
+    public static String sessionID = "c75e24cbb188a091a3abbd83e87d8cc4";
 
     @Given("The user has signed in")
     public void theUserHasSignedIn() {
@@ -51,6 +54,24 @@ public class BlockRoomSteps {
 
         System.out.println(printOut.indexOf(check_in));
         System.out.println(printOut.indexOf(checkout));
+    }
 
+    @When("User deletes a blocked room")
+    public void userDeletesABlockedRoom() {
+        RestAssured.baseURI = BASE_URL;
+        RequestSpecification request = RestAssured.given();
+        response = request.header("referer", "https://aluveapp-qa.co.za/admin/").cookie("PHPSESSID", sessionID).delete("/api/blockedroom/delete/47");
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody());
+    }
+
+    @Then("User validates room is deleted")
+    public void userValidatesRoomIsDeleted() {
+        Assert.assertEquals(200, response.getStatusCode());
+        String jsonString = response.asString();
+        String resultMessage = new ArrayList<String>(JsonPath.from(jsonString).get("result_message")).get(0);
+        Assert.assertEquals("EntityManager#remove() expects parameter 1 to be an entity object, NULL given.", resultMessage);
+        response.getContentType();
+        response.then().log().body();
     }
 }
