@@ -4,7 +4,6 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -15,23 +14,11 @@ import java.util.ArrayList;
 
 public class BlockRoomSteps {
     public static final String BASE_URL = "https://aluveapp-qa.co.za";
+
     public static Response response;
-    public static String sessionID = "c75e24cbb188a091a3abbd83e87d8cc4";
+    public static String sessionID = "e6e050b638cedaeb6af05007bfa70ebf";
 
-    @Given("The user has signed in")
-    public void theUserHasSignedIn() {
-        RestAssured.baseURI = BASE_URL;
-        RequestSpecification request = RestAssured.given();
-        request.param("_username", "info%40aluvegh.co.za");
-        request.param("_password", "3782");
-        request.header("referer", "https://aluveapp-qa.co.za/login");
-        request.header("Accept", ContentType.JSON.getAcceptHeader());
-        response = request.cookie("PHPSESSID", sessionID).when().post("/login");
-        response.then().log().body();
-        System.out.println(response.getStatusCode());
-        System.out.println(response.getBody());
 
-    }
 
     @Given("The user blocks room")
     public void the_user_blocks_room() {
