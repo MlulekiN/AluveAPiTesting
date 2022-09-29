@@ -1,5 +1,6 @@
 package Steps;
 
+import Base.BaseClass;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -12,19 +13,18 @@ import org.junit.Assert;
 import java.util.ArrayList;
 
 
-public class BlockRoomSteps {
+public class BlockRoomSteps extends BaseClass {
+
     public static final String BASE_URL = "https://aluveapp-qa.co.za";
 
     public static Response response;
-    public static String sessionID = "e6e050b638cedaeb6af05007bfa70ebf";
-
 
 
     @Given("The user blocks room")
     public void the_user_blocks_room() {
         RestAssured.baseURI = BASE_URL;
         RequestSpecification request = RestAssured.given();
-        response = request.header("referer", "https://aluveapp-qa.co.za/admin/").cookie("PHPSESSID", sessionID).get("/api/blockedroom/get");
+        response = request.header("referer", "https://aluveapp-qa.co.za/admin/").cookie(cookieEat, returnCookie).get("/api/blockedroom/get");
         response.then().log().body();
         System.out.println(response.getStatusCode());
         System.out.println(response.getBody());
@@ -47,7 +47,7 @@ public class BlockRoomSteps {
     public void userDeletesABlockedRoom() {
         RestAssured.baseURI = BASE_URL;
         RequestSpecification request = RestAssured.given();
-        response = request.header("referer", "https://aluveapp-qa.co.za/admin/").cookie("PHPSESSID", sessionID).delete("/api/blockedroom/delete/47");
+        response = request.header("referer", "https://aluveapp-qa.co.za/admin/").cookie(cookieEat, returnCookie).delete("/api/blockedroom/delete/47");
         System.out.println(response.getStatusCode());
         System.out.println(response.getBody());
     }
