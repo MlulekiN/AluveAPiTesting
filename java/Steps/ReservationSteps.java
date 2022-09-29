@@ -33,7 +33,7 @@ public class ReservationSteps extends BaseClass {
     public void userUpdatesGuestIDGuestID(String guestID) {
         RestAssured.baseURI = BASE_URL;
         RequestSpecification request = RestAssured.given();
-        response = request.cookie("PHPSESSID",returnCookie).put("/api/guest/69/idnumber/" + guestID + "");
+        response = request.cookie(cookieEat,returnCookie).put("/api/guest/69/idnumber/" + guestID + "");
         response.then().log().body();
         response.getBody();
         System.out.println(response.getStatusCode());
@@ -46,7 +46,7 @@ public class ReservationSteps extends BaseClass {
     @Then("User validates ID successfully updated")
     public void userValidatesIDSuccessfullyUpdated() {
         RequestSpecification request = RestAssured.given();
-        response = request.cookie("PHPSESSID",returnCookie).get("/api/guest/69/idnumber/142");
+        response = request.cookie(cookieEat,returnCookie).get("/api/guest/69/idnumber/142");
         Assert.assertEquals(200, response.getStatusCode());
         System.out.println(returnCookie);
         response.then().log().body();
