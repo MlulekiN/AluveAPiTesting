@@ -9,11 +9,6 @@ import io.restassured.specification.RequestSpecification;
 import static io.restassured.RestAssured.given;
 
 public class LoginSteps extends BaseClass {
-    private BaseClass base;
-
-    public LoginSteps(BaseClass base) {
-        this.base = base;
-    }
 
     public static final String BASE_URL = "http://aluveapp-qa.co.za";
     public static Response response;
